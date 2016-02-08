@@ -9,11 +9,16 @@ public class MainFrame extends JFrame implements ActionListener {
 
     private JTextField firstStatement  = new JTextField("First Statement");
     private JTextField secondStatement = new JTextField("Second Statement");
-    private JTextField outputStatement = new JTextField("Output Statement");
-
+    private JTextField thirdStatement  = new JTextField("Third Statement");
+    private JTextField fourthStatement = new JTextField("Fourth Statement");
+    private JTextField searchStatement = new JTextField("What will we seek for?");
+    private JTextArea  resultStatement = new JTextArea("RESULT WILL BE SHOWN HERE");
     private JPanel     mainPanel       = new JPanel();
-
+    private JPanel     statementPanel  = new JPanel();
+    private JPanel     resultPanel     = new JPanel();
     private JButton    button          = new JButton("Perform");
+
+    private String[]   toCheck         = null;
 
     public MainFrame() {
         super("Modus Tollens");
@@ -22,6 +27,31 @@ public class MainFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocation(dimension.width / 5, dimension.height / 5);
         setSize(dimension.width / 5 * 3, dimension.height / 5 * 3);
+
+        button.addActionListener(this);
+        resultStatement.setEditable(false);
+
+        statementPanel.setLayout(new GridLayout(4,1));
+        statementPanel.add(firstStatement);
+        statementPanel.add(secondStatement);
+        statementPanel.add(thirdStatement);
+        statementPanel.add(fourthStatement);
+
+        resultPanel.setLayout(new GridLayout(3,1));
+        resultPanel.add(searchStatement);
+        resultPanel.add(resultStatement);
+        resultPanel.add(button);
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(statementPanel, BorderLayout.WEST);
+        mainPanel.add(resultPanel,BorderLayout.CENTER);
+
+        this.add(mainPanel);
+        this.getSwag();
+        this.setVisible(true);
+    }
+
+    private void getSwag() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -32,55 +62,25 @@ public class MainFrame extends JFrame implements ActionListener {
         } catch (Exception e) {
             System.out.println("Nimbus is not available");
         }
-
-        button.addActionListener(this);
-        outputStatement.setEditable(false);
-
-        mainPanel.setAlignmentY(JPanel.BOTTOM_ALIGNMENT);
-        mainPanel.add(firstStatement);
-        mainPanel.add(secondStatement);
-        mainPanel.add(outputStatement);
-        mainPanel.add(button);
-
-        this.add(mainPanel);
-        this.pack();
-        this.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-        if(e.getSource() == button) {
-            if (firstStatement.getText().toLowerCase().equals("")) {
-                firstStatement.setText("FILL");
-                outputStatement.setText("CHECK STATEMENTS");
-            }
-
-            if (secondStatement.getText().toLowerCase().equals("")) {
-                secondStatement.setText("FILL");
-                outputStatement.setText("CHECK STATEMENTS");
-            }
-
-            Boolean first  = Boolean.parseBoolean(firstStatement.getText());
-            boolean second = Boolean.parseBoolean(secondStatement.getText());
-
-            switch (first + "-" + second) {
-                case "false-false":
-                    outputStatement.setText("This is TRUE");
-                    break;
-                case "false-true":
-                    outputStatement.setText("This is FALSE");
-                    break;
-                case "true-false":
-                    outputStatement.setText("This is TRUE");
-                    break;
-                case "true-true":
-                    outputStatement.setText("This is TRUE");
-                    break;
-                default:
-                    throw new RuntimeException(
-                            "something strange happening here, first: " + first + ",second: " + second);
-            }
+    public void searchForStatement(String[] statementsToCheck) {
+        for (String statement : statementsToCheck) {
+            String[] parts = statement.split("->");
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == button) {
+            formToCheckArray();
+            searchForStatement(toCheck);
+        }
+    }
+
+    private void formToCheckArray() {
+        toCheck = new String[]{firstStatement.getText(), secondStatement.getText(), thirdStatement.getText(),
+                fourthStatement.getText() };
     }
 
 }
