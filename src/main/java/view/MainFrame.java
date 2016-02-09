@@ -1,9 +1,12 @@
 package view;
 
+import model.StatementNode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements ActionListener {
 
@@ -64,9 +67,29 @@ public class MainFrame extends JFrame implements ActionListener {
         }
     }
 
+
+    private void formToCheckArray() {
+        toCheck = new String[]{firstStatement.getText(), secondStatement.getText(), thirdStatement.getText(),
+                fourthStatement.getText() };
+    }
+
+
     public void searchForStatement(String[] statementsToCheck) {
+        ArrayList<StatementNode> statementNodes = new ArrayList<>();
+
         for (String statement : statementsToCheck) {
-            String[] parts = statement.split("->");
+            String[]      parts  = statement.split("->");
+            StatementNode first  = new StatementNode(parts[0]);
+            StatementNode second = new StatementNode(parts[1]);
+
+            first.addConnection(second);
+            statementNodes.add(first);
+        }
+
+        System.out.println(statementNodes);
+
+        for (StatementNode statementNode : statementNodes) {
+            // FIXME: 09.02.2016
         }
     }
 
@@ -76,11 +99,6 @@ public class MainFrame extends JFrame implements ActionListener {
             formToCheckArray();
             searchForStatement(toCheck);
         }
-    }
-
-    private void formToCheckArray() {
-        toCheck = new String[]{firstStatement.getText(), secondStatement.getText(), thirdStatement.getText(),
-                fourthStatement.getText() };
     }
 
 }
