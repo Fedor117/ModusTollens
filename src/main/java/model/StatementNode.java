@@ -17,4 +17,16 @@ public class StatementNode {
         connections.add(connected);
     }
 
+    public String getStatement() {
+        return this.statement;
+    }
+
+    public String getConnections() {
+        String name = null;
+        for (StatementNode connection : connections) {
+            name = connection.getStatement();
+        }
+        return name;
+    }
+
 }

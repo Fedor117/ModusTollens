@@ -15,7 +15,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private JTextField thirdStatement  = new JTextField("Third Statement");
     private JTextField fourthStatement = new JTextField("Fourth Statement");
     private JTextField searchStatement = new JTextField("What will we seek for?");
-    private JTextArea  resultStatement = new JTextArea("RESULT WILL BE SHOWN HERE");
+    private JTextArea  resultStatement = new JTextArea("RESULT WILL BE SHOWN HERE\n\n");
     private JPanel     mainPanel       = new JPanel();
     private JPanel     statementPanel  = new JPanel();
     private JPanel     resultPanel     = new JPanel();
@@ -32,6 +32,7 @@ public class MainFrame extends JFrame implements ActionListener {
         setSize(dimension.width / 5 * 3, dimension.height / 5 * 3);
 
         button.addActionListener(this);
+        searchStatement.addActionListener(this);
         resultStatement.setEditable(false);
 
         statementPanel.setLayout(new GridLayout(4,1));
@@ -75,6 +76,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
 
     public void searchForStatement(String[] statementsToCheck) {
+        cleanResultArea();
         ArrayList<StatementNode> statementNodes = new ArrayList<>();
 
         for (String statement : statementsToCheck) {
@@ -86,12 +88,20 @@ public class MainFrame extends JFrame implements ActionListener {
             statementNodes.add(first);
         }
 
-        
-        System.out.println(statementNodes);
-
-        for (StatementNode statementNode : statementNodes) {
-            // FIXME: 09.02.2016
+        for (StatementNode statement : statementNodes) {
+            if (!statement.getConnections().equals(searchStatement.getText())) {
+                resultStatement.append("!" + statement.getConnections() + "->!" + statement.getStatement() + "\n");
+            }
         }
+
+    }
+
+    private void cleanField(JTextField field) {
+        field.setText("");
+    }
+
+    private void cleanResultArea() {
+        resultStatement.setText("");
     }
 
     @Override
@@ -99,6 +109,9 @@ public class MainFrame extends JFrame implements ActionListener {
         if (e.getSource() == button) {
             formToCheckArray();
             searchForStatement(toCheck);
+        }
+        if (e.getSource() == searchStatement) {
+            cleanField(searchStatement);
         }
     }
 
