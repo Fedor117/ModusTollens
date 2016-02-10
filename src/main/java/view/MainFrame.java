@@ -90,8 +90,6 @@ public class MainFrame extends JFrame implements ActionListener {
             statementNodes.add(first);
         }
 
-
-
         for (StatementNode statement : reversed(statementNodes)) {
             if (!statement.getConnections().equals(searchStatement.getText())) {
                 resultStatement.append("!" + statement.getConnections() + "->!" + statement.getStatement() + "\n");
