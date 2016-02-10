@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static model.Reversed.reversed;
+
 public class MainFrame extends JFrame implements ActionListener {
 
     private JTextField firstStatement  = new JTextField("First Statement");
@@ -88,16 +90,13 @@ public class MainFrame extends JFrame implements ActionListener {
             statementNodes.add(first);
         }
 
-        for (StatementNode statement : statementNodes) {
+
+
+        for (StatementNode statement : reversed(statementNodes)) {
             if (!statement.getConnections().equals(searchStatement.getText())) {
                 resultStatement.append("!" + statement.getConnections() + "->!" + statement.getStatement() + "\n");
             }
         }
-
-    }
-
-    private void cleanField(JTextField field) {
-        field.setText("");
     }
 
     private void cleanResultArea() {
@@ -109,9 +108,6 @@ public class MainFrame extends JFrame implements ActionListener {
         if (e.getSource() == button) {
             formToCheckArray();
             searchForStatement(toCheck);
-        }
-        if (e.getSource() == searchStatement) {
-            cleanField(searchStatement);
         }
     }
 
