@@ -1,15 +1,16 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StatementNode {
 
     String statement;
-    ArrayList<StatementNode> connections;
+    List<StatementNode> connections;
 
     public StatementNode(String statement) {
         this.statement   = statement;
-        this.connections = null;
+        this.connections = new ArrayList<>();
     }
 
     public void addConnection(StatementNode connected) {

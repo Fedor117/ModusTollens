@@ -86,6 +86,7 @@ public class MainFrame extends JFrame implements ActionListener {
             statementNodes.add(first);
         }
 
+        
         System.out.println(statementNodes);
 
         for (StatementNode statementNode : statementNodes) {

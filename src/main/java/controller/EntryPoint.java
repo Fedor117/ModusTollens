@@ -1,3 +1,5 @@
+package controller;
+
 import view.MainFrame;
 
 public class EntryPoint implements Runnable {
